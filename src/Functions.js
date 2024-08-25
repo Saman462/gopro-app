@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 export const getSortedMediaList = async () => {
-    const url = '/gopro/media/list';
+    const url = 'http://10.5.5.9:8080/gopro/media/list';
     try {
         const response = await axios.get(url);
         if (response.status === 200) {
@@ -40,7 +40,7 @@ export const getSortedMediaList = async () => {
 };
 
 const downloadSingleMedia = async (directory, filename) => {
-    const url = `/videos/DCIM/${directory}/${filename}`;
+    const url = `http://10.5.5.9:8080/videos/DCIM/${directory}/${filename}`;
     console.log(`Downloading file: ${filename} from URL: ${url}`);
     try {
         const response = await axios.get(url, { responseType: 'blob' });
@@ -53,7 +53,7 @@ const downloadSingleMedia = async (directory, filename) => {
 };
 export const getMediaList = async () => {
     try {
-        const response = await axios.get('/gopro/media/list');
+        const response = await axios.get('http://10.5.5.9:8080/gopro/media/list');
         if (response.status === 200) {
             const data = response.data;
             if (data.media && data.media.length > 0) {

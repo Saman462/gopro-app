@@ -50,8 +50,9 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://10.5.5.9:8080",
+  
   "devDependencies": {
     "ajv": "^7.2.4"
   }
 }
+

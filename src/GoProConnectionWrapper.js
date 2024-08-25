@@ -3,6 +3,7 @@ import axios from 'axios';
 import { saveAs } from 'file-saver';
 import { useNavigate } from 'react-router-dom';
 import { getSortedMediaList } from "./Functions";
+// "proxy": "http://10.5.5.9:8080",
 const GoProConnectionWrapper = () => {
     const [isConnected, setIsConnected] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -24,7 +25,7 @@ const GoProConnectionWrapper = () => {
         const checkConnection = async () => {
             setLoading(true);
             try {
-                const response = await axios.get('/gopro/camera/state');
+                const response = await axios.get('http://10.5.5.9:8080/gopro/camera/state');
                 if (response.status === 200) {
                     setIsConnected(true);
                 } else {
@@ -62,7 +63,7 @@ const GoProConnectionWrapper = () => {
         }
         setProjectIdError('');
         try {
-            const response = await axios.get('/gopro/camera/shutter/start');
+            const response = await axios.get('http://10.5.5.9:8080/gopro/camera/shutter/start');
             if (response.status === 200) {
                 setRecording(true);
                 console.log(`Recording started for Project ID: ${projectId}`);
@@ -76,7 +77,7 @@ const GoProConnectionWrapper = () => {
 
     const stopRecording = async () => {
         try {
-            const response = await axios.get('/gopro/camera/shutter/stop');
+            const response = await axios.get('http://10.5.5.9:8080/gopro/camera/shutter/stop');
             if (response.status === 200) {
                 setRecording(false);
                 console.log(`Recording stopped for Project ID: ${projectId}`);
@@ -105,7 +106,7 @@ const GoProConnectionWrapper = () => {
         }
 
         const recentFile = await lastCaptured();
-        const stateResponse = await axios.get('/gopro/camera/state');
+        const stateResponse = await axios.get('http://10.5.5.9:8080/gopro/camera/state');
         const mediaQuality = stateResponse.data.settings['2'];
 
         if (recentFile) {
@@ -130,7 +131,7 @@ const GoProConnectionWrapper = () => {
 
 
     const downloadSingleMedia = async (directory, filename) => {
-        const url = `/videos/DCIM/${directory}/${filename}`;
+        const url = `http://10.5.5.9:8080/videos/DCIM/${directory}/${filename}`;
         console.log(`Downloading file: ${filename} from URL: ${url}`);
         try {
             const response = await axios.get(url, { responseType: 'blob' });
@@ -143,7 +144,7 @@ const GoProConnectionWrapper = () => {
     };
     const getMediaList = async () => {
         try {
-            const response = await axios.get('/gopro/media/list');
+            const response = await axios.get('http://10.5.5.9:8080/gopro/media/list');
             if (response.status === 200) {
                 const data = response.data;
                 if (data.media && data.media.length > 0) {
