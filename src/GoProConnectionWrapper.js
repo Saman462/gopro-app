@@ -25,7 +25,7 @@ const GoProConnectionWrapper = () => {
         const checkConnection = async () => {
             setLoading(true);
             try {
-                const response = await axios.get('http://10.5.5.9:8080/gopro/camera/state');
+                const response = await axios.get('/api/camera/state');
                 if (response.status === 200) {
                     setIsConnected(true);
                 } else {
