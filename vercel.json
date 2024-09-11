@@ -1,10 +1,12 @@
+
 {
-    "rewrites": [
-      {
-        "source": "/api/camera/state",
-        "destination": "http://10.5.5.9:8080/gopro/camera/state"
-      }
-    ]
-  }
+  "rewrites": [
+    {
+      "source": "/api/camera/state",
+      "destination": "http://10.5.5.9:8080/gopro/camera/state"
+    }
+  ]
+}
+
   
   
