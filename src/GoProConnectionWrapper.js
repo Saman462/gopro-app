@@ -370,7 +370,7 @@ const CheckGoProConnection = () => {
             setLoading(true);
             try {
                 // Use the proxied URL instead of the direct GoPro URL
-                const response = await axios.get('https://proxy-server-pink.vercel.app/api/camera/state');
+                const response = await axios.get('https://proxy-server-pink.vercel.app/api/api/camera/state');
                 if (response.status === 200) {
                     setIsConnected(true);
                 } else {
