@@ -21,26 +21,28 @@ const GoProConnectionWrapper = () => {
         setRecordings(storedRecordings);
     }, []);
 
-    useEffect(() => {
-        const checkConnection = async () => {
-            setLoading(true);
-            try {
-                const response = await axios.get('https://proxy-server-pink.vercel.app/api/gopro/camera/state');
-                if (response.status === 200) {
-                    setIsConnected(true);
-                } else {
-                    setIsConnected(false);
-                }
-            } catch (error) {
+    const checkConnection = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.get('https://proxy-server-pink.vercel.app/api/camera/state');
+            if (response.status === 200) {
+                setIsConnected(true);
+            } else {
                 setIsConnected(false);
-            } finally {
-                setLoading(false);
             }
-        };
+        } catch (error) {
+            setIsConnected(false);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
         checkConnection();
         const intervalId = setInterval(checkConnection, 30000);
         return () => clearInterval(intervalId);
     }, []);
+
     // const checkConnection = async () => {
     //     setLoading(true);
     //     try {
