@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 export const getSortedMediaList = async () => {
-    const url = 'http://10.5.5.9:8080/gopro/media/list';
+    const url = 'https://proxy-server-pink.vercel.app/api/gopro/media/list';
     try {
         const response = await axios.get(url);
         if (response.status === 200) {
