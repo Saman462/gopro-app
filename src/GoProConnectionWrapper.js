@@ -364,42 +364,77 @@ import axios from 'axios';
 const CheckGoProConnection = () => {
     const [isConnected, setIsConnected] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [data, setData] = useState(null); // State to store the data from the other API
+    const [dataLoading, setDataLoading] = useState(false); // State to handle data loading
 
+    // Check GoPro connection
+    // useEffect(() => {
+    //     const checkConnection = async () => {
+    //         setLoading(true);
+    //         try {
+    //             const response = await axios.get('https://proxy-server-pink.vercel.app/api/camera/state');
+    //             if (response.status === 200) {
+    //                 setIsConnected(true);
+    //             } else {
+    //                 setIsConnected(false);
+    //             }
+    //         } catch (error) {
+    //             setIsConnected(false);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+
+    //     checkConnection();
+    //     const intervalId = setInterval(checkConnection, 30000);
+    //     return () => clearInterval(intervalId);
+    // }, []);
+
+    // Fetch sample data from http://192.168.1.17:3000/data
     useEffect(() => {
-        const checkConnection = async () => {
-            setLoading(true);
+        const fetchData = async () => {
+            setDataLoading(true);
             try {
-                // Use the proxied URL instead of the direct GoPro URL
-                const response = await axios.get('https://proxy-server-pink.vercel.app/api/camera/state');
+                const response = await axios.get('https://proxy-server-pink.vercel.app/data');
                 if (response.status === 200) {
-                    setIsConnected(true);
-                } else {
-                    setIsConnected(false);
+                    setData(response.data); // Store the response data
                 }
             } catch (error) {
-                setIsConnected(false);
+                console.error('Error fetching data:', error);
             } finally {
-                setLoading(false);
+                setDataLoading(false);
             }
         };
 
-        checkConnection();
-        // Set up interval to check connection every 30 seconds
-        const intervalId = setInterval(checkConnection, 30000);
-        return () => clearInterval(intervalId);
+        fetchData();
     }, []);
 
     return (
         <div>
-            {loading ? (
-                <p>Loading...</p>
+            {/* GoPro Connection Status */}
+            {/* {loading ? (
+                <p>Checking GoPro connection...</p>
             ) : isConnected ? (
                 <p>GoPro is connected!</p>
             ) : (
                 <p>GoPro is not connected.</p>
+            )} */}
+
+            {/* Display fetched data */}
+            {dataLoading ? (
+                <p>Loading data...</p>
+            ) : data ? (
+                <div>
+                    <p>Message: {data.message}</p>
+                    <p>Success: {data.success ? 'Yes' : 'No'}</p>
+                    <p>Items: {data.items.join(', ')}</p>
+                </div>
+            ) : (
+                <p>No data available</p>
             )}
         </div>
     );
 };
 
 export default CheckGoProConnection;
+
