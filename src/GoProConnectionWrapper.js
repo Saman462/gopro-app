@@ -371,7 +371,7 @@ const CheckGoProConnection = () => {
             setLoading(true);
             try {
                 // Use the serverless function URL
-                const response = await axios.get('https://proxy-server-pink.vercel.app/api/camera-state');
+                const response = await axios.get('https://bitter-dream-0000.samanzohravic.workers.dev/gopro/camera/state');
                 if (response.status === 200) {
                     setIsConnected(true);
                 } else {
