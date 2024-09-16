@@ -413,7 +413,7 @@ function App() {
 
     useEffect(() => {
         // Fetch data from the /data endpoint
-        fetch('http://192.168.1.10:3000/data')
+        fetch('https://bitter-dream-0000.samanzohravic.workers.dev/data')
             .then((response) => response.json())
             .then((data) => {
                 setData(data); // Set the fetched data to state
@@ -421,7 +421,7 @@ function App() {
             .catch((error) => console.error('Error fetching data:', error));
 
         // Fetch homepage data from the / endpoint
-        fetch('http://192.168.1.10:3000/')
+        fetch('https://bitter-dream-0000.samanzohravic.workers.dev/')
             .then((response) => response.text())
             .then((message) => {
                 setHomepageMessage(message); // Set the homepage message to state
