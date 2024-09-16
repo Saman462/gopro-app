@@ -405,49 +405,26 @@
 
 // export default CheckGoProConnection;
 // src/App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function App() {
-    const [ipAddress, setIpAddress] = useState('');
-    const [data, setData] = useState(null);
+    const [message, setMessage] = useState('');
 
-    const handleIpChange = (event) => {
-        setIpAddress(event.target.value);
-    };
-
-    const fetchData = () => {
-        // Replace 'localhost' with the GoPro IP provided by the user
-        fetch(`http://${ipAddress}:3000/data`)
+    useEffect(() => {
+        // Fetch data from the Cloudflare Worker
+        fetch('https://nodejs-serverless-function-express-gray-two.vercel.app/data') // Update with your Cloudflare Worker URL
             .then((response) => response.json())
             .then((data) => {
-                setData(data);
+                setMessage(data.message); // Set the fetched message to state
             })
             .catch((error) => console.error('Error fetching data:', error));
-    };
+    }, []);
 
     return (
         <div className="App">
-            <h1>Connect to GoPro</h1>
-            <input
-                type="text"
-                placeholder="Enter GoPro IP"
-                value={ipAddress}
-                onChange={handleIpChange}
-            />
-            <button onClick={fetchData}>Fetch Data</button>
-
-            {data && (
-                <div>
-                    <h3>Message: {data.message}</h3>
-                    <h4>Success: {data.success.toString()}</h4>
-                    <h4>Items:</h4>
-                    <ul>
-                        {data.items.map((item, index) => (
-                            <li key={index}>{item}</li>
-                        ))}
-                    </ul>
-                </div>
-            )}
+            <h1>React App</h1>
+            {/* Display message from the /api/hello endpoint */}
+            <h2>{message}</h2>
         </div>
     );
 }
