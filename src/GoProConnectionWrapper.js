@@ -414,7 +414,7 @@ function App() {
     useEffect(() => {
         async function fetchGoProState() {
             try {
-                const response = await axios.get('/api/gopro/camera/state');
+                const response = await axios.get('https://bitter-dream-0000.samanzohravic.workers.dev/gopro/camera/state');
                 setGoProState(response.data);
             } catch (error) {
                 console.error('Error fetching GoPro state:', error);
@@ -428,7 +428,7 @@ function App() {
 
     return (
         <div className="App">
-            <h1>GoPro condition!!!!!!!</h1>
+            <h1>GoPro condition check saman!!!!!!!</h1>
             {loading ? (
                 <p>Loading...</p>
             ) : (
