@@ -415,7 +415,7 @@ function App() {
     useEffect(() => {
         async function fetchGoProState() {
             try {
-                const response = await axios.get('/gopro/camera/state');
+                const response = await axios.get('api/gopro/camera/state');
                 setGoProState(response.data);
             } catch (error) {
                 console.error('Error fetching GoPro state:', error);
