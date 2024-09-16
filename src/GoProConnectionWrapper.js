@@ -359,48 +359,100 @@
 
 // export default GoProConnectionWrapper;
 
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+// import { useEffect, useState } from 'react';
+// import axios from 'axios';
 
-const CheckGoProConnection = () => {
-    const [isConnected, setIsConnected] = useState(false);
-    const [loading, setLoading] = useState(false);
+// const CheckGoProConnection = () => {
+//     const [isConnected, setIsConnected] = useState(false);
+//     const [loading, setLoading] = useState(false);
+
+//     useEffect(() => {
+//         const checkConnection = async () => {
+//             setLoading(true);
+//             try {
+//                 // Use the serverless function URL
+//                 const response = await axios.get('https://bitter-dream-0000.samanzohravic.workers.dev/gopro/camera/state');
+//                 if (response.status === 200) {
+//                     setIsConnected(true);
+//                 } else {
+//                     setIsConnected(false);
+//                 }
+//             } catch (error) {
+//                 setIsConnected(false);
+//             } finally {
+//                 setLoading(false);
+//             }
+//         };
+
+//         checkConnection();
+//         // Set up interval to check connection every 30 seconds
+//         const intervalId = setInterval(checkConnection, 30000);
+//         return () => clearInterval(intervalId);
+//     }, []);
+
+//     return (
+//         <div>
+//             {loading ? (
+//                 <p>Loading...</p>
+//             ) : isConnected ? (
+//                 <p>GoPro is connected!</p>
+//             ) : (
+//                 <p>GoPro is not connected.</p>
+//             )}
+//         </div>
+//     );
+// };
+
+// export default CheckGoProConnection;
+// src/App.js
+import React, { useState, useEffect } from 'react';
+
+function App() {
+    const [data, setData] = useState(null);
+    const [homepageMessage, setHomepageMessage] = useState('');
 
     useEffect(() => {
-        const checkConnection = async () => {
-            setLoading(true);
-            try {
-                // Use the serverless function URL
-                const response = await axios.get('https://bitter-dream-0000.samanzohravic.workers.dev/gopro/camera/state');
-                if (response.status === 200) {
-                    setIsConnected(true);
-                } else {
-                    setIsConnected(false);
-                }
-            } catch (error) {
-                setIsConnected(false);
-            } finally {
-                setLoading(false);
-            }
-        };
+        // Fetch data from the /data endpoint
+        fetch('http://192.168.1.10:3000/data')
+            .then((response) => response.json())
+            .then((data) => {
+                setData(data); // Set the fetched data to state
+            })
+            .catch((error) => console.error('Error fetching data:', error));
 
-        checkConnection();
-        // Set up interval to check connection every 30 seconds
-        const intervalId = setInterval(checkConnection, 30000);
-        return () => clearInterval(intervalId);
+        // Fetch homepage data from the / endpoint
+        fetch('http://192.168.1.10:3000/')
+            .then((response) => response.text())
+            .then((message) => {
+                setHomepageMessage(message); // Set the homepage message to state
+            })
+            .catch((error) => console.error('Error fetching homepage message:', error));
     }, []);
 
     return (
-        <div>
-            {loading ? (
-                <p>Loading...</p>
-            ) : isConnected ? (
-                <p>GoPro is connected!</p>
+        <div className="App">
+            <h1>React App</h1>
+            {/* Display homepage message */}
+            <h2>{homepageMessage}</h2>
+
+            {/* Display data from the /data endpoint */}
+            {data ? (
+                <div>
+                    <h3>Message: {data.message}</h3>
+                    <h4>Success: {data.success.toString()}</h4>
+                    <h4>Items:</h4>
+                    <ul>
+                        {data.items.map((item, index) => (
+                            <li key={index}>{item}</li>
+                        ))}
+                    </ul>
+                </div>
             ) : (
-                <p>GoPro is not connected.</p>
+                <p>Loading data...</p>
             )}
         </div>
     );
-};
+}
 
-export default CheckGoProConnection;
+export default App;
+
