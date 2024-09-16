@@ -4,6 +4,17 @@
         "source": "/api/:path*",
         "destination": "http://10.5.5.9:8080/gopro/:path*"
       }
+    ],
+    "headers": [
+      {
+        "source": "/api/:path*",
+        "headers": [
+          {
+            "key": "Access-Control-Allow-Origin",
+            "value": "*"
+          }
+        ]
+      }
     ]
   }
   
