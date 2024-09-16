@@ -406,26 +406,35 @@
 // export default CheckGoProConnection;
 // src/App.js
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function App() {
-    const [message, setMessage] = useState('');
+    const [goproState, setGoProState] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Fetch data from the Cloudflare Worker
-        fetch('https://bitter-dream-0000.samanzohravic.workers.dev/data')
-            .then((response) => response.json())
-            .then((data) => {
-                setMessage(data.message); // Set the fetched message to state
-            })
-            .catch((error) => console.error('Error fetching data:', error));
+        async function fetchGoProState() {
+            try {
+                const response = await axios.get('/api/camera/state');
+                setGoProState(response.data);
+            } catch (error) {
+                console.error('Error fetching GoPro state:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchGoProState();
     }, []);
 
     return (
         <div className="App">
-            <h1>React App</h1>
-            <h3>Cloudflare</h3>
-            {/* Display message from the /api/hello endpoint */}
-            <h2>{message}</h2>
+            <h1>GoPro State</h1>
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
+                <pre>{JSON.stringify(goproState, null, 2)}</pre>
+            )}
         </div>
     );
 }
