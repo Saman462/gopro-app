@@ -412,7 +412,7 @@ function App() {
 
     useEffect(() => {
         // Fetch data from the Cloudflare Worker
-        fetch('https://nodejs-serverless-function-express-gray-two.vercel.app/data') // Update with your Cloudflare Worker URL
+        fetch('https://bitter-dream-0000.samanzohravic.workers.dev/data') // Update with your Cloudflare Worker URL
             .then((response) => response.json())
             .then((data) => {
                 setMessage(data.message); // Set the fetched message to state
