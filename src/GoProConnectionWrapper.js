@@ -405,38 +405,38 @@
 
 // export default CheckGoProConnection;
 // src/App.js
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 function App() {
+    const [ipAddress, setIpAddress] = useState('');
     const [data, setData] = useState(null);
-    const [homepageMessage, setHomepageMessage] = useState('');
 
-    useEffect(() => {
-        // Fetch data from the /data endpoint
-        fetch('https://bitter-dream-0000.samanzohravic.workers.dev/data')
+    const handleIpChange = (event) => {
+        setIpAddress(event.target.value);
+    };
+
+    const fetchData = () => {
+        // Replace 'localhost' with the GoPro IP provided by the user
+        fetch(`http://${ipAddress}:3000/data`)
             .then((response) => response.json())
             .then((data) => {
-                setData(data); // Set the fetched data to state
+                setData(data);
             })
             .catch((error) => console.error('Error fetching data:', error));
-
-        // Fetch homepage data from the / endpoint
-        fetch('https://bitter-dream-0000.samanzohravic.workers.dev/')
-            .then((response) => response.text())
-            .then((message) => {
-                setHomepageMessage(message); // Set the homepage message to state
-            })
-            .catch((error) => console.error('Error fetching homepage message:', error));
-    }, []);
+    };
 
     return (
         <div className="App">
-            <h1>React App</h1>
-            {/* Display homepage message */}
-            <h2>{homepageMessage}</h2>
+            <h1>Connect to GoPro</h1>
+            <input
+                type="text"
+                placeholder="Enter GoPro IP"
+                value={ipAddress}
+                onChange={handleIpChange}
+            />
+            <button onClick={fetchData}>Fetch Data</button>
 
-            {/* Display data from the /data endpoint */}
-            {data ? (
+            {data && (
                 <div>
                     <h3>Message: {data.message}</h3>
                     <h4>Success: {data.success.toString()}</h4>
@@ -447,12 +447,9 @@ function App() {
                         ))}
                     </ul>
                 </div>
-            ) : (
-                <p>Loading data...</p>
             )}
         </div>
     );
 }
 
 export default App;
-
