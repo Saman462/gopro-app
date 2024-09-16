@@ -404,7 +404,6 @@
 // };
 
 // export default CheckGoProConnection;
-// src/App.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -415,7 +414,7 @@ function App() {
     useEffect(() => {
         async function fetchGoProState() {
             try {
-                const response = await axios.get('api/gopro/camera/state');
+                const response = await axios.get('/api/camera/state');
                 setGoProState(response.data);
             } catch (error) {
                 console.error('Error fetching GoPro state:', error);
@@ -429,7 +428,7 @@ function App() {
 
     return (
         <div className="App">
-            <h1>GoPro State</h1>
+            <h1>GoPro condition</h1>
             {loading ? (
                 <p>Loading...</p>
             ) : (
