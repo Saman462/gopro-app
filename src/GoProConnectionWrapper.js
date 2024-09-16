@@ -428,7 +428,7 @@ function App() {
 
     return (
         <div className="App">
-            <h1>GoPro condition</h1>
+            <h1>GoPro condition!!!!!!!</h1>
             {loading ? (
                 <p>Loading...</p>
             ) : (
