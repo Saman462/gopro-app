@@ -412,7 +412,7 @@ function App() {
 
     useEffect(() => {
         // Fetch data from the Cloudflare Worker
-        fetch('https://bitter-dream-0000.samanzohravic.workers.dev/data') // Update with your Cloudflare Worker URL
+        fetch('https://bitter-dream-0000.samanzohravic.workers.dev/data')
             .then((response) => response.json())
             .then((data) => {
                 setMessage(data.message); // Set the fetched message to state
@@ -423,6 +423,7 @@ function App() {
     return (
         <div className="App">
             <h1>React App</h1>
+            <h3>Cloudflare</h3>
             {/* Display message from the /api/hello endpoint */}
             <h2>{message}</h2>
         </div>
